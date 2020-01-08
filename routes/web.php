@@ -14,3 +14,11 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('halo', function() {
+    return "Welcome to Flood Monitroing";
+});
+
+Route::get('blog', function() {
+    return view('blog');
+});

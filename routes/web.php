@@ -22,3 +22,5 @@ Route::get('halo', function() {
 Route::get('blog', function() {
     return view('blog');
 });
+
+Route::get('basicController', 'BasicController@index');

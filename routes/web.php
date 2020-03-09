@@ -16,3 +16,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('dashboard');
 });
+
+Route::get('android', function () {
+    return view('android');
+});
+
+Route::get('iot', function () {
+    return view('iot');
+});

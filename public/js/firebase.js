@@ -42,7 +42,7 @@ function signIn() {
 function signOut() {
     auth.signOut()
         .then(function () {
-            location.href = "login.php";
+            location.href = "/login";
         })
         .catch(function (error) {
             alert(error.message);
@@ -70,7 +70,7 @@ function getCategoryFlood(debit, level) {
 //-------------JAVASCRIPT DASHBOARD PAGE----------------------
 function showData1() {
     database.ref('Recent/Device1').orderByChild('miliestime').on('value' ,function (snapshot) {
-        console.log(snapshot.val());
+        // console.log(snapshot.val());
         if (snapshot.exists()) {
             var content = '';
             var i = 1;

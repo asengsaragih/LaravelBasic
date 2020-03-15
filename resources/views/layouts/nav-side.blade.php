@@ -27,14 +27,14 @@
     </div>
 
     <!-- Nav Item - Android -->
-    <li class="nav-item active">
+    <li class="nav-item">
         <a class="nav-link" href="/android">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Android</span></a>
     </li>
 
     <!-- Nav Item - IOT -->
-    <li class="nav-item active">
+    <li class="nav-item">
         <a class="nav-link" href="/iot">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>IOT</span></a>

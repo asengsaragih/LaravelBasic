@@ -69,9 +69,9 @@ function getCategoryFlood(debit, level) {
 // console.log("hai");
 //-------------JAVASCRIPT DASHBOARD PAGE----------------------
 function showData1() {
-    database.ref('Recent/Device1').on('value' ,function (snapshot) {
+    database.ref('Recent/Device1').orderByChild('miliestime').on('value' ,function (snapshot) {
         console.log(snapshot.val());
-        var table = $('#dataTable').DataTable();
+        var table = $('.dataIOT1').DataTable();
         var content;
         var i = 1;
         if (snapshot.exists()) {
@@ -99,33 +99,27 @@ function showData1() {
 function showData2() {
     database.ref('Recent/Device2').orderByChild('miliestime').on('value' ,function (snapshot) {
         console.log(snapshot.val());
+        var table = $('.dataIOT2').DataTable();
+        var content;
+        var i = 1;
         if (snapshot.exists()) {
-            var content = '';
-            var i = 1;
             snapshot.forEach(function (data) {
                 var val = data.val();
-                var category = val.category;
+                var cat = "";
 
-                content +='<tr>';
-                content += '<td>' + i++ + '</td>';
-                content += '<td>' + val.date + '</td>';
-                content += '<td>' + val.time + '</td>';
-                content += '<td>' + val.debit + '</td>';
-                content += '<td>' + val.level + '</td>';
-
-                if (category == 1) {
-                    content += "<td >" + "<b style='color: #00ff00'>NORMAL</b>" + '</td>';
-                } else if (category == 2) {
-                    content += "<td>" + "<b style='color: #ffff00'>STANDBY</b>" + '</td>';
-                } else if (category == 3) {
-                    content += "<td>" + "<b style='color: #ff0000'>DANGER</b>" + '</td>';
+                if (val.category == "1") {
+                    cat = "<b style='color: #00ff00'>NORMAL</b>";
+                } else if (val.category == "2") {
+                    cat = "<b style='color: #ffff00'>STANDBY</b>";
+                } else if (val.category == "3") {
+                    cat = "<b style='color: #ff0000'>DANGER</b>";
                 } else {
-                    content += "<td>" + "<b>NO PARAMETER</b>" + '</td>';
+                    cat = "Null";
                 }
 
-                content += '</tr>';
+                content = [i++, val.date, val.time, val.debit, val.level, cat];
+                table.row.add(content).draw();
             });
-            $('#dataIOT2').append(content);
         }
     });
 }

@@ -156,7 +156,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable dataIOT1" width="100%" cellspacing="0">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
                                         <th>No</th>
@@ -177,15 +177,12 @@
                                         <th>Category</th>
                                     </tr>
                                 </tfoot>
-                                <tbody>
-                                    <script>
-                                        showData1();
-                                    </script>
-                                </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
+
+                <script>showData1();</script>
 
             </div>
             <!-- /.container-fluid -->
@@ -231,6 +228,14 @@
 <script src="{{url('js/demo/datatables-demo.js')}}"></script>
 <script src="{{url('js/demo/chart-area-demo.js')}}"></script>
 <script src="{{url('js/demo/chart-pie-demo.js')}}"></script>
+
+<!-- Datatables custom -->
+<script>
+    // var someTableDT = $("#sdataTable").on("draw.dt", function () {
+    //     $(this).find(".dataTables_empty").parents('tbody').empty();
+    // }).DataTable(/*init object*/);
+
+</script>
 
 </body>
 

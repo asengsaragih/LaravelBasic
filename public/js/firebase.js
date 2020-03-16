@@ -166,28 +166,28 @@ function getLastNodeRecentIOT2() {
     });
 }
 
-function getBiggestFlood() {
-
-}
-
-function getSmallestFlood() {
-
-}
-
 function iot1BiggestFlood() {
-    database.ref('Recent/Device1').orderByChild()
+    database.ref('Recent/Device1').orderByChild("level").limitToLast(1).on('child_added', function (snapshot) {
+        var content = '';
+        var val = snapshot.val();
+        var category = val.category;
+
+        content += val.level + " | " + val.debit;
+        console.log(val.level);
+        $('#iot1Biggest').append(content);
+    });
 }
 
 function iot2BiggestFlood() {
+    database.ref('Recent/Device2').orderByChild("level").limitToLast(1).on('child_added', function (snapshot) {
+        var content = '';
+        var val = snapshot.val();
+        var category = val.category;
 
-}
-
-function iot1SmallestFlood() {
-
-}
-
-function iot2SmallestFlood() {
-
+        content += val.level + " | " + val.debit;
+        console.log(val.level);
+        $('#iot2Biggest').append(content);
+    });
 }
 
 //-------JAVASCRIPT ANDROID PAGE------------------

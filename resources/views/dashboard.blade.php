@@ -68,11 +68,8 @@
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Pending Requests</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-comments fa-2x text-gray-300"></i>
+                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Status IOT 1</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="recentDevice1"><script>getLastNodeRecentIOT1()</script></div>
                                     </div>
                                 </div>
                             </div>
@@ -84,11 +81,8 @@
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Pending Requests</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-comments fa-2x text-gray-300"></i>
+                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Status IOT 2</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="recentDevice2"><script>getLastNodeRecentIOT2()</script></div>
                                     </div>
                                 </div>
                             </div>
@@ -100,11 +94,8 @@
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Pending Requests</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-comments fa-2x text-gray-300"></i>
+                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Biggest Flood IOT 1</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="iot1Biggest"><script>iot1BiggestFlood()</script></div>
                                     </div>
                                 </div>
                             </div>
@@ -116,11 +107,8 @@
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Pending Requests</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-comments fa-2x text-gray-300"></i>
+                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Biggest Flood IOT 2</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="iot2Biggest"><script>iot2BiggestFlood()</script></div>
                                     </div>
                                 </div>
                             </div>

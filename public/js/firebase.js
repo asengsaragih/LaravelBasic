@@ -51,17 +51,33 @@ function signOut() {
 
 //-------------FUNCTION ALL-----------------------------------
 function getCategoryFlood(debit, level) {
-    // debit.replace(" L/m");
-    // level.replace(" cm", "");
+    debit.replace(" L/m", "");
+    level.replace(" cm", "");
 
-    if (debit > 2.5 && level > 3.5) {
-        console.log(CATEGORY_DANGER);
-    } else if (debit >= 1 || debit <= 2.5 && level <= 2) {
-        console.log(CATEGORY_DANGER);
-    } else if (debit < 1 && level > 3.5) {
-        console.log(CATEGORY_STANDBY);
-    } else if (debit > 2.5 && level > 2 || level <= 3.5) {
-        console.log(CATEGORY_STANDBY);
+    if (debit < 1) {
+        if (level < 2) {
+            return "NORMAL";
+        } else if (level <= 3.5) {
+            return "STANDBY";
+        } else {
+            return "STANDBY";
+        }
+    } else if (debit < 2.5) {
+        if (level < 2) {
+            return "NORMAL";
+        } else if (level <= 3.5) {
+            return "STANDBY";
+        } else {
+            return "DANGER";
+        }
+    } else {
+        if (level < 2) {
+            return "NORMAL";
+        } else if (level <= 3.5) {
+            return "STANDBY";
+        } else {
+            return "DANGER";
+        }
     }
 }
 
@@ -70,7 +86,7 @@ function getCategoryFlood(debit, level) {
 //-------------JAVASCRIPT DASHBOARD PAGE----------------------
 function showData1() {
     database.ref('Recent/Device1').orderByChild('miliestime').on('value' ,function (snapshot) {
-        console.log(snapshot.val());
+        // console.log(snapshot.val());
         var table = $('.dataIOT1').DataTable();
         var content;
         var i = 1;
@@ -98,7 +114,7 @@ function showData1() {
 
 function showData2() {
     database.ref('Recent/Device2').orderByChild('miliestime').on('value' ,function (snapshot) {
-        console.log(snapshot.val());
+        // console.log(snapshot.val());
         var table = $('.dataIOT2').DataTable();
         var content;
         var i = 1;
@@ -173,7 +189,7 @@ function iot1BiggestFlood() {
         var category = val.category;
 
         content += val.level + " | " + val.debit;
-        console.log(val.level);
+        // console.log(val.level);
         $('#iot1Biggest').append(content);
     });
 }
@@ -185,10 +201,81 @@ function iot2BiggestFlood() {
         var category = val.category;
 
         content += val.level + " | " + val.debit;
-        console.log(val.level);
+        // console.log(val.level);
         $('#iot2Biggest').append(content);
     });
 }
+
+// chart function
+function showChartIOT1() {
+    database.ref('Recent/Device1').orderByChild('miliestime').on('value' ,function (snapshot) {
+        if (snapshot.exists()) {
+            snapshot.forEach(function (data) {
+                var val = data.val();
+
+                var rawDebit = val.debit;
+                var rawLevel = val.level;
+
+                var debit = parseFloat(rawDebit.replace(" L/m", ""));
+                var level = parseFloat(rawLevel.replace(" cm", ""));
+
+                if (debit < 1) {
+                    if (level < 2) {
+                        console.log("Aman");
+                    } else if (level <= 3.5) {
+                        console.log("Siaga");
+                    } else {
+                        console.log("Siaga");
+                    }
+                } else if (debit < 2.5) {
+                    if (level < 2) {
+                        console.log("Aman");
+                    } else if (level <= 3.5) {
+                        console.log("Siaga");
+                    } else {
+                        console.log("Bahaya");
+                    }
+                } else {
+                    if (level < 2) {
+                        console.log("Aman");
+                    } else if (level <= 3.5) {
+                        console.log("Siaga");
+                    } else {
+                        console.log("Bahaya");
+                    }
+                }
+
+            });
+        }
+    });
+}
+
+function number_format(number, decimals, dec_point, thousands_sep) {
+    // *     example: number_format(1234.56, 2, ',', ' ');
+    // *     return: '1 234,56'
+    number = (number + '').replace(',', '').replace(' ', '');
+    var n = !isFinite(+number) ? 0 : +number,
+        prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+        sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+        dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+        s = '',
+        toFixedFix = function(n, prec) {
+            var k = Math.pow(10, prec);
+            return '' + Math.round(n * k) / k;
+        };
+    // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+    s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+    if (s[0].length > 3) {
+        s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+    }
+    if ((s[1] || '').length < prec) {
+        s[1] = s[1] || '';
+        s[1] += new Array(prec - s[1].length + 1).join('0');
+    }
+    return s.join(dec);
+}
+
+// end chart function
 
 //-------JAVASCRIPT ANDROID PAGE------------------
 

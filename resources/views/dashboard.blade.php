@@ -118,24 +118,40 @@
 
                 {{--    area chart            --}}
                 <div class="row">
-
                     <div class="col-xl-12">
-
                         <!-- Area Chart -->
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Area Chart</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">Chart IOT 1</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-area">
+                                    <canvas id="IOT1Chart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xl-12">
+                        <!-- Area Chart -->
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Chart IOT 1</h6>
                             </div>
                             <div class="card-body">
                                 <div class="chart-area">
                                     <canvas id="myAreaChart"></canvas>
                                 </div>
-                                <hr>
-                                Styling for the area chart can be found in the <code>/js/demo/chart-area-demo.js</code> file.
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <script>
+                    showChartIOT1();
+                </script>
 
                 <!-- Data 1 -->
                 <div class="card shadow mb-4">

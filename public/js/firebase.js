@@ -238,25 +238,44 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 
 function showChartIOT1() {
     database.ref('Recent/Device1').orderByChild('miliestime').on('value' ,function (snapshot) {
-        var returnArr = [];
+        var dataArrayStatus = [];
+        var dataArrayTime = [];
 
         snapshot.forEach(function (data) {
             var val = data.val();
-            // item.key = data.debit;
+            var date_time = val.date + " " + val.time;
 
-            returnArr.push(val.debit);
+            dataArrayStatus.push(val.category);
+            dataArrayTime.push(date_time);
         });
 
-        console.log(returnArr);
+        chartCallback(dataArrayTime, dataArrayStatus, "IOT1Chart");
     });
 }
 
-function chartCallback(dataLabel, dataRaw) {
-    var ctx = document.getElementById("IOT1Chart");
+function showChartIOT2() {
+    database.ref('Recent/Device2').orderByChild('miliestime').on('value' ,function (snapshot) {
+        var dataArrayStatus = [];
+        var dataArrayTime = [];
+
+        snapshot.forEach(function (data) {
+            var val = data.val();
+            var date_time = val.date + " " + val.time;
+
+            dataArrayStatus.push(val.category);
+            dataArrayTime.push(date_time);
+        });
+
+        chartCallback(dataArrayTime, dataArrayStatus, "IOT2Chart");
+    });
+}
+
+function chartCallback(dataLabel, dataRaw, ctxID) {
+    var ctx = document.getElementById(ctxID);
     var myLineChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+            labels: dataLabel,
             datasets: [{
                 label: "Earnings",
                 lineTension: 0.3,
@@ -270,7 +289,7 @@ function chartCallback(dataLabel, dataRaw) {
                 pointHoverBorderColor: "rgba(78, 115, 223, 1)",
                 pointHitRadius: 10,
                 pointBorderWidth: 2,
-                data: [0, 10000, 5000, 15000, 10000, 20000, 15000, 25000, 20000, 30000, 25000, 40000],
+                data: dataRaw,
             }],
         },
         options: {
@@ -298,11 +317,13 @@ function chartCallback(dataLabel, dataRaw) {
                 }],
                 yAxes: [{
                     ticks: {
-                        maxTicksLimit: 5,
+                        maxTicksLimit: 3,
                         padding: 10,
                         // Include a dollar sign in the ticks
                         callback: function(value, index, values) {
-                            return '$' + number_format(value);
+                            // return '$' + number_format(value);
+                            console.log(value + " test odng");
+                            return setLabelChart(value);
                         }
                     },
                     gridLines: {
@@ -334,12 +355,23 @@ function chartCallback(dataLabel, dataRaw) {
                 callbacks: {
                     label: function(tooltipItem, chart) {
                         var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-                        return datasetLabel + ': $' + number_format(tooltipItem.yLabel);
+                        // return datasetLabel + ': $' + number_format(tooltipItem.yLabel);
+                        return setLabelChart(tooltipItem.yLabel);
                     }
                 }
             }
         }
     });
+}
+
+function setLabelChart(category) {
+    if (category <= 1) {
+        return CATEGORY_NORMAL;
+    } else if (category <= 2) {
+        return CATEGORY_STANDBY;
+    } else {
+        return CATEGORY_DANGER;
+    }
 }
 
 // end chart function

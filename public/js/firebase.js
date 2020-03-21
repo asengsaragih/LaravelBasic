@@ -211,31 +211,6 @@ function iot2BiggestFlood() {
 Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#858796';
 
-function number_format(number, decimals, dec_point, thousands_sep) {
-    // *     example: number_format(1234.56, 2, ',', ' ');
-    // *     return: '1 234,56'
-    number = (number + '').replace(',', '').replace(' ', '');
-    var n = !isFinite(+number) ? 0 : +number,
-        prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
-        sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
-        dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
-        s = '',
-        toFixedFix = function(n, prec) {
-            var k = Math.pow(10, prec);
-            return '' + Math.round(n * k) / k;
-        };
-    // Fix for IE parseFloat(0.55).toFixed(0) = 0;
-    s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
-    if (s[0].length > 3) {
-        s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
-    }
-    if ((s[1] || '').length < prec) {
-        s[1] = s[1] || '';
-        s[1] += new Array(prec - s[1].length + 1).join('0');
-    }
-    return s.join(dec);
-}
-
 function showChartIOT1() {
     database.ref('Recent/Device1').orderByChild('miliestime').on('value' ,function (snapshot) {
         var dataArrayStatus = [];
@@ -380,78 +355,91 @@ function setLabelChart(category) {
 
 function showDataAndroid1() {
     database.ref('Recent/Device1').orderByChild('miliestime').on('value' ,function (snapshot) {
+        // console.log(snapshot.val());
+        var table = $('.androidData1').DataTable();
+        var content;
+        var i = 1;
         if (snapshot.exists()) {
-            var content = '';
             snapshot.forEach(function (data) {
                 var val = data.val();
-                var category = val.category;
+                var key = data.key;
+                var cat = "";
+                var status = "";
 
-                content +='<tr>';
-                content += '<td>' + val.date + " <b>" + val.time + "</b>" + '</td>';
-                content += '<td>' + val.debit + '</td>';
-                content += '<td>' + val.level + '</td>';
-
-                if (category == 1) {
-                    content += "<td >" + "<b style='color: #00ff00'>NORMAL</b>" + '</td>';
-                } else if (category == 2) {
-                    content += "<td>" + "<b style='color: #ffff00'>STANDBY</b>" + '</td>';
-                } else if (category == 3) {
-                    content += "<td>" + "<b style='color: #ff0000'>DANGER</b>" + '</td>';
+                if (val.category == "1") {
+                    cat = "<b style='color: #00ff00'>NORMAL</b>";
+                } else if (val.category == "2") {
+                    cat = "<b style='color: #ffff00'>STANDBY</b>";
+                } else if (val.category == "3") {
+                    cat = "<b style='color: #ff0000'>DANGER</b>";
                 } else {
-                    content += "<td>" + "<b>NO PARAMETER</b>" + '</td>';
+                    cat = "Null";
                 }
 
-                content += "<td>" +
-                    "<label class='switch switch-3d switch-secondary mr-3'>" +
-                    "<input type='checkbox' class='switch-input' checked='true'>" +
-                    "<span class='switch-label'></span>" +
-                    "<span class='switch-handle'></span>" +
-                    "</label>" +
-                    "</td>";
+                if (val.status == 1) {
+                    status = "<label class=\"switch\">\n" +
+                        "  <input type='checkbox' checked onchange=" + "'" + switchAndroidData(key) + "'" + ">\n" +
+                        "  <span class=\"slider round\"></span>\n" +
+                        "</label>";
+                    // status = "<label class=\"switch\">\n" +
+                    //     "  <input type=\"checkbox\" checked>\n" +
+                    //     "  <span class=\"slider round\"></span>\n" +
+                    //     "</label>";
+                } else {
+                    status = "<label class=\"switch\">\n" +
+                        "  <input type=\"checkbox\">\n" +
+                        "  <span class=\"slider round\"></span>\n" +
+                        "</label>";
+                }
 
-                content += '</tr>';
+                content = [i++, val.date, val.time, val.debit, val.level, cat, status];
+                table.row.add(content).draw();
             });
-            $("#androidData1").append(content);
         }
     });
 }
 
 function showDataAndroid2() {
     database.ref('Recent/Device2').orderByChild('miliestime').on('value' ,function (snapshot) {
+        // console.log(snapshot.val());
+        var table = $('.androidData2').DataTable();
+        var content;
+        var i = 1;
         if (snapshot.exists()) {
-            var content = '';
             snapshot.forEach(function (data) {
-                var key = data.key;
                 var val = data.val();
-                var category = val.category;
+                var cat = "";
+                var status = "";
 
-                content +='<tr>';
-                content += '<td>' + val.date + " <b>" + val.time + "</b>" + '</td>';
-                content += '<td>' + val.debit + '</td>';
-                content += '<td>' + val.level + '</td>';
-
-                if (category == 1) {
-                    content += "<td >" + "<b style='color: #00ff00'>NORMAL</b>" + '</td>';
-                } else if (category == 2) {
-                    content += "<td>" + "<b style='color: #ffff00'>STANDBY</b>" + '</td>';
-                } else if (category == 3) {
-                    content += "<td>" + "<b style='color: #ff0000'>DANGER</b>" + '</td>';
+                if (val.category == "1") {
+                    cat = "<b style='color: #00ff00'>NORMAL</b>";
+                } else if (val.category == "2") {
+                    cat = "<b style='color: #ffff00'>STANDBY</b>";
+                } else if (val.category == "3") {
+                    cat = "<b style='color: #ff0000'>DANGER</b>";
                 } else {
-                    content += "<td>" + "<b>NO PARAMETER</b>" + '</td>';
+                    cat = "Null";
                 }
 
-                content += "<td>" +
-                    "<label class='switch switch-3d switch-secondary mr-3'>" +
-                    "<input onclick='changeStatusData2()' id='keySwitch2' type='checkbox' checked='true' class='switch-input' value='"+data.key+"'" +">" +
-                    // "<input onclick='changeStatusData2("+data.key+")' id='keySwitch2' type='checkbox' checked='true' class='switch-input'>" +
-                    "<span class='switch-label'></span>" +
-                    "<span class='switch-handle'></span>" +
-                    "</label>" +
-                    "</td>";
+                if (val.status == 1) {
+                    status = "<label class=\"switch\">\n" +
+                        "  <input type=\"checkbox\" checked>\n" +
+                        "  <span class=\"slider round\"></span>\n" +
+                        "</label>";
+                } else {
+                    status = "<label class=\"switch\">\n" +
+                        "  <input type=\"checkbox\">\n" +
+                        "  <span class=\"slider round\"></span>\n" +
+                        "</label>";
+                }
 
-                content += '</tr>';
+                content = [i++, val.date, val.time, val.debit, val.level, cat, status];
+                table.row.add(content).draw();
             });
-            $("#androidData2").append(content);
         }
     });
+}
+
+function switchAndroidData(key) {
+    console.log(key);
 }

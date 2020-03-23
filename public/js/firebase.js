@@ -31,8 +31,7 @@ function signIn() {
 
     auth.signInWithEmailAndPassword(email, password)
         .then(function (authData) {
-            // session = authData;
-            // location.href = "index.php";
+
         })
         .catch(function (error) {
             alert(error.message);
@@ -81,8 +80,6 @@ function getCategoryFlood(rawDebit, rawLevel) {
     }
 }
 
-// getCategoryFlood(1, 1);
-// console.log("hai");
 //-------------JAVASCRIPT DASHBOARD PAGE----------------------
 function showData1() {
     database.ref('Recent/Device1').orderByChild('miliestime').on('value' ,function (snapshot) {
@@ -381,10 +378,6 @@ function showDataAndroid1() {
                         "  <input type='checkbox' checked onchange=" + "'" + switchAndroidData(key) + "'" + ">\n" +
                         "  <span class=\"slider round\"></span>\n" +
                         "</label>";
-                    // status = "<label class=\"switch\">\n" +
-                    //     "  <input type=\"checkbox\" checked>\n" +
-                    //     "  <span class=\"slider round\"></span>\n" +
-                    //     "</label>";
                 } else {
                     status = "<label class=\"switch\">\n" +
                         "  <input type=\"checkbox\">\n" +

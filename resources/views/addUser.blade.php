@@ -23,8 +23,8 @@
     <script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-analytics.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-database.js"></script>
-    <script src="{{url('assets/js/firebase.js')}}"></script>
-    <script src="{{url('assets/js/sessionIndex.js')}}"></script>
+    <script src="{{url('js/firebase.js')}}"></script>
+    <script src="{{url('js/sessionIndex.js')}}"></script>
 
     <!-- Library MD5 Javascript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/core.js"></script>
@@ -63,33 +63,31 @@
                 <!-- haru buat row untuk setiap tampilan -->
                 <!-- end row -->
 
-                <!-- DataTales Example -->
+                <!-- id nu === new user -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-primary">Form Add New User</h6>
                     </div>
                     <div class="card-body">
-                        <form class="user" method="POST">
-                            <div class="form-group">
-                                <h6>Fullname : </h6>
-                                <input type="text" name="fullname" class="form-control form-control-user" placeholder="eg. Jhon Doe">
-                            </div>
-                            <div class="form-group">
-                                <h6>E-mail : </h6>
-                                <input type="email" name="email" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="eg. jhondoe@email.com">
-                            </div>
-                            <div class="form-group">
-                                <h6>Password : </h6>
-                                <input type="password" name="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="eg. jhonDoe12!@" required>
-                            </div>
-                            <div class="form-group">
-                                <h6>Re-Type Password : </h6>
-                                <input type="password" name="rePassword" class="form-control form-control-user" id="exampleInputPassword" placeholder="eg. jhonDoe12!@" required>
-                            </div>
-                            <div class="form-group">
-                                <button class="btn btn-primary btn-user btn-block">Add New User</button>
-                            </div>
-                        </form>
+                        <div class="form-group">
+                            <h6>Fullname : </h6>
+                            <input type="text" id="nu_fullname" class="form-control form-control-user" placeholder="eg. Jhon Doe">
+                        </div>
+                        <div class="form-group">
+                            <h6>E-mail : </h6>
+                            <input type="email" id="nu_email" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="eg. jhondoe@email.com">
+                        </div>
+                        <div class="form-group">
+                            <h6>Password : </h6>
+                            <input type="password" id="nu_password" class="form-control form-control-user" id="exampleInputPassword" placeholder="eg. jhonDoe12!@">
+                        </div>
+                        <div class="form-group">
+                            <h6>Re-Type Password : </h6>
+                            <input type="password" id="nu_rePassword" class="form-control form-control-user" id="exampleInputPassword" placeholder="eg. jhonDoe12!@">
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" id="addUserButton" class="btn btn-primary btn-user btn-block" onclick="createNewUser()">Add New User</button>
+                        </div>
                     </div>
                 </div>
 
@@ -137,7 +135,16 @@
 <script src="{{url('js/demo/chart-area-demo.js')}}"></script>
 <script src="{{url('js/demo/chart-pie-demo.js')}}"></script>
 
-<!-- String Variable GLobal Php -->
+<!--Script if button enter tapped-->
+<script>
+    var triggerButton = document.getElementById("nu_rePassword");
+    triggerButton.addEventListener("keyup", function(event) {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            document.getElementById("addUserButton").click();
+        }
+    });
+</script>
 
 
 </body>

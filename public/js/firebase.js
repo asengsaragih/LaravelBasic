@@ -455,6 +455,60 @@ function switchCheckIOT2(key) {
 }
 
 //-------JAVASCRIPT USER------------------
-function AddingUser(email, password) {
+function createNewUser() {
+    var name = document.getElementById("nu_fullname").value;
+    var email = document.getElementById("nu_email").value;
+    var password = CryptoJS.MD5(document.getElementById("nu_password").value).toString();
+    var rePassword = CryptoJS.MD5(document.getElementById("nu_rePassword").value).toString();
 
+    // validate variable
+    var nullPassword = "d41d8cd98f00b204e9800998ecf8427e";
+    var spacePass = "7215ee9c7d9dc229d2921a40e899ec5f";
+
+    if (name == "" || name == " " || name == null || name.length <= 2) {
+        alert("Name must be more than 3 characters");
+        return;
+    }
+
+    if (!validateEmail(email) || email == null) {
+        alert("Email not valid");
+        return;
+    }
+
+    if (password == nullPassword || password == spacePass) {
+        alert("Password cannot be empty");
+        return;
+    }
+
+    if (password != rePassword) {
+        alert("Password and Repassword fill must be same");
+        return;
+    }
+
+    auth.createUserWithEmailAndPassword(email, password).then((success) => {
+        var userData = {
+            Fullname: name,
+            Email: email,
+            Status: 1,
+        }
+
+        var emailSplit = email.split("@", 1);
+
+        database.ref('User/'+emailSplit).set(userData);
+
+        window.location.href = "/view-user";
+    }).catch((error) => {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+
+        alert("Error : " + errorMessage);
+        return;
+    });
+
+}
+
+function validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
 }

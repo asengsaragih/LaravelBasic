@@ -69,7 +69,7 @@
                                     <div class="form-group">
                                         <input type="password" class="form-control form-control-user" id="password_field" placeholder="Password" required>
                                     </div>
-                                    <button onclick="signIn()" class="btn btn-primary btn-user btn-block">Login</button>
+                                    <button id="loginBtn" onclick="signIn()" class="btn btn-primary btn-user btn-block">Login</button>
                                 </div>
                             </div>
                         </div>
@@ -92,6 +92,17 @@
 
 <!-- Custom scripts for all pages-->
 <script src="{{url('js/sb-admin-2.min.js')}}"></script>
+
+<!--Script if button enter tapped-->
+<script>
+    var triggerButton = document.getElementById("password_field");
+    triggerButton.addEventListener("keyup", function(event) {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            document.getElementById("loginBtn").click();
+        }
+    });
+</script>
 
 </body>
 

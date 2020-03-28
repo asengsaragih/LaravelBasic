@@ -494,7 +494,7 @@ function createNewUser() {
 
         var emailSplit = email.split("@", 1);
 
-        database.ref('User/'+emailSplit).set(userData);
+        database.ref('User/'+emailSplit.replace(".","")).set(userData);
 
         window.location.href = "/view-user";
     }).catch((error) => {
@@ -511,4 +511,42 @@ function createNewUser() {
 function validateEmail(email) {
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
+}
+
+function getAllUserData() {
+    database.ref('User').once('value' ,function (snapshot) {
+        // console.log(snapshot.val());
+        var table = $('.dataUsers').DataTable();
+        var content;
+        var i = 1;
+        if (snapshot.exists()) {
+            snapshot.forEach(function (data) {
+                var val = data.val();
+                var key = data.key;
+                var status = "";
+
+                if (val.Status == 1) {
+                    status = "<label class=\"switch\">\n" +
+                        "  <input type=\"checkbox\" checked id='user-" + key + "'" + "onclick=switchCheckUser('" + key + "')"+">\n" +
+                        "  <span class=\"slider round\"></span>\n" +
+                        "</label>";
+                } else {
+                    status = "<label class=\"switch\">\n" +
+                        "  <input type=\"checkbox\" id='user-" + user + "'" + "onclick=switchCheckUser('" + key + "')"+">\n" +
+                        "  <span class=\"slider round\"></span>\n" +
+                        "</label>";
+                }
+
+                var deleteButton = "<a href=\"#\" class=\"btn btn-danger btn-icon-split\">\n" +
+                    "                    <span class=\"icon text-white-50\">\n" +
+                    "                      <i class=\"fas fa-trash\"></i>\n" +
+                    "                    </span>\n" +
+                    "                    <span class=\"text\">Delete User</span>\n" +
+                    "                  </a>";
+
+                content = [i++, val.Fullname, val.Email, status, deleteButton];
+                table.row.add(content).draw();
+            });
+        }
+    });
 }

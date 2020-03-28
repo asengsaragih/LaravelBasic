@@ -21,14 +21,18 @@ Route::get('/login', function () {
     return view('login');
 });
 
-Route::get('android', function () {
+Route::get('/android', function () {
     return view('android');
 });
 
-Route::get('iot', function () {
+Route::get('/iot', function () {
     return view('iot');
 });
 
 Route::get('/add-user', function () {
     return view('addUser');
+});
+
+Route::get('/view-user', function () {
+    return view('viewUser');
 });

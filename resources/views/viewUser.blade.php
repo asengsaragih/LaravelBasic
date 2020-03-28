@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
+    <title>SB Admin 2 - Adding User</title>
 
     <!-- Custom fonts for this template-->
     <link href="{{url('vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
@@ -56,41 +56,37 @@
 
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 class="h3 mb-0 text-gray-800">Android</h1>
+                    <h1 class="h3 mb-0 text-gray-800">View User</h1>
                 </div>
 
                 <!-- Content Row -->
                 <!-- haru buat row untuk setiap tampilan -->
                 <!-- end row -->
 
-                <!-- Data 1 -->
+                <!-- Data user -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Data IOT 1</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">View User</h6>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-bordered androidData1" id="dataTable" width="100%" cellspacing="0">
+                            <table class="table table-bordered dataUsers" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Date</th>
-                                    <th>Time</th>
-                                    <th>Debit</th>
-                                    <th>Level</th>
-                                    <th>Category</th>
-                                    <th>Switch</th>
+                                    <th>Nama</th>
+                                    <th>Email</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
                                 </tr>
                                 </thead>
                                 <tfoot>
                                 <tr>
                                     <th>No</th>
-                                    <th>Date</th>
-                                    <th>Time</th>
-                                    <th>Debit</th>
-                                    <th>Level</th>
-                                    <th>Category</th>
-                                    <th>Switch</th>
+                                    <th>Nama</th>
+                                    <th>Email</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
                                 </tr>
                                 </tfoot>
                             </table>
@@ -98,45 +94,7 @@
                     </div>
                 </div>
 
-                <script>showDataAndroid1();</script>
-
-                <!-- Data 2 -->
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Data IOT 2</h6>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered androidData2" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Date</th>
-                                    <th>Time</th>
-                                    <th>Debit</th>
-                                    <th>Level</th>
-                                    <th>Category</th>
-                                    <th>Switch</th>
-                                </tr>
-                                </thead>
-                                <tfoot>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Date</th>
-                                    <th>Time</th>
-                                    <th>Debit</th>
-                                    <th>Level</th>
-                                    <th>Category</th>
-                                    <th>Switch</th>
-                                </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <script>showDataAndroid2();</script>
-
+                <script>getAllUserData();</script>
 
 
             </div>
@@ -183,6 +141,7 @@
 <script src="{{url('js/demo/datatables-demo.js')}}"></script>
 <script src="{{url('js/demo/chart-area-demo.js')}}"></script>
 <script src="{{url('js/demo/chart-pie-demo.js')}}"></script>
+
 
 </body>
 

@@ -19,35 +19,6 @@ const CATEGORY_DANGER = "WARNING";
 const CATEGORY_STANDBY = "STAND-BY";
 const CATEGORY_NORMAL = "NORMAL";
 
-//-------------JAVASCRIPT LOGIN PAGE----------------------
-function signIn() {
-    var email = document.getElementById("email_field").value;
-    var password = CryptoJS.MD5(document.getElementById("password_field").value).toString();
-
-    if (email == "" || password == "d41d8cd98f00b204e9800998ecf8427e") {
-        alert("Email dan Password Harus Diisi");
-        return;
-    }
-
-    auth.signInWithEmailAndPassword(email, password)
-        .then(function (authData) {
-
-        })
-        .catch(function (error) {
-            alert(error.message);
-        })
-}
-
-function signOut() {
-    auth.signOut()
-        .then(function () {
-            location.href = "/login";
-        })
-        .catch(function (error) {
-            alert(error.message);
-        })
-}
-
 //-------------FUNCTION ALL-----------------------------------
 function getCategoryFlood(rawDebit, rawLevel) {
     var debit = parseFloat(rawDebit.replace(" L/m", ""));
@@ -78,6 +49,35 @@ function getCategoryFlood(rawDebit, rawLevel) {
             return "DANGER";
         }
     }
+}
+
+//-------------JAVASCRIPT LOGIN PAGE----------------------
+function signIn() {
+    var email = document.getElementById("email_field").value;
+    var password = CryptoJS.MD5(document.getElementById("password_field").value).toString();
+
+    if (email == "" || password == "d41d8cd98f00b204e9800998ecf8427e") {
+        alert("Email dan Password Harus Diisi");
+        return;
+    }
+
+    auth.signInWithEmailAndPassword(email, password)
+        .then(function (authData) {
+
+        })
+        .catch(function (error) {
+            alert(error.message);
+        })
+}
+
+function signOut() {
+    auth.signOut()
+        .then(function () {
+            location.href = "/login";
+        })
+        .catch(function (error) {
+            alert(error.message);
+        })
 }
 
 //-------------JAVASCRIPT DASHBOARD PAGE----------------------
@@ -351,7 +351,7 @@ function setLabelChart(category) {
 //-------JAVASCRIPT ANDROID PAGE------------------
 
 function showDataAndroid1() {
-    database.ref('Recent/Device1').orderByChild('miliestime').on('value' ,function (snapshot) {
+    database.ref('Recent/Device1').orderByChild('miliestime').once('value', function (snapshot) {
         // console.log(snapshot.val());
         var table = $('.androidData1').DataTable();
         var content;
@@ -375,12 +375,12 @@ function showDataAndroid1() {
 
                 if (val.status == 1) {
                     status = "<label class=\"switch\">\n" +
-                        "  <input type='checkbox' checked onchange=" + "'" + switchAndroidData(key) + "'" + ">\n" +
+                        "  <input type=\"checkbox\" checked id='iot1-" + key + "'" + "onclick=switchCheckIOT1('" + key + "')"+">\n" +
                         "  <span class=\"slider round\"></span>\n" +
                         "</label>";
                 } else {
                     status = "<label class=\"switch\">\n" +
-                        "  <input type=\"checkbox\">\n" +
+                        "  <input type=\"checkbox\" id='iot1-" + key + "'" + "onclick=switchCheckIOT1('" + key + "')"+">\n" +
                         "  <span class=\"slider round\"></span>\n" +
                         "</label>";
                 }
@@ -393,7 +393,7 @@ function showDataAndroid1() {
 }
 
 function showDataAndroid2() {
-    database.ref('Recent/Device2').orderByChild('miliestime').on('value' ,function (snapshot) {
+    database.ref('Recent/Device2').orderByChild('miliestime').once('value' ,function (snapshot) {
         // console.log(snapshot.val());
         var table = $('.androidData2').DataTable();
         var content;
@@ -401,6 +401,7 @@ function showDataAndroid2() {
         if (snapshot.exists()) {
             snapshot.forEach(function (data) {
                 var val = data.val();
+                var key = data.key;
                 var cat = "";
                 var status = "";
 
@@ -416,12 +417,12 @@ function showDataAndroid2() {
 
                 if (val.status == 1) {
                     status = "<label class=\"switch\">\n" +
-                        "  <input type=\"checkbox\" checked>\n" +
+                        "  <input type=\"checkbox\" checked id='iot2-" + key + "'" + "onclick=switchCheckIOT2('" + key + "')"+">\n" +
                         "  <span class=\"slider round\"></span>\n" +
                         "</label>";
                 } else {
                     status = "<label class=\"switch\">\n" +
-                        "  <input type=\"checkbox\">\n" +
+                        "  <input type=\"checkbox\" id='iot2-" + key + "'" + "onclick=switchCheckIOT2('" + key + "')"+">\n" +
                         "  <span class=\"slider round\"></span>\n" +
                         "</label>";
                 }
@@ -433,6 +434,22 @@ function showDataAndroid2() {
     });
 }
 
-function switchAndroidData(key) {
-    console.log(key);
+function switchCheckIOT1(key) {
+    var idCheckValue = document.getElementById("iot1-" + key).checked;
+
+    if (idCheckValue == true) {
+        database.ref('Recent/Device1/' + key).update({status : 1});
+    } else {
+        database.ref('Recent/Device1/' + key).update({status : 0});
+    }
+}
+
+function switchCheckIOT2(key) {
+    var idCheckValue = document.getElementById("iot2-" + key).checked;
+
+    if (idCheckValue == true) {
+        database.ref('Recent/Device2/' + key).update({status : 1});
+    } else {
+        database.ref('Recent/Device2/' + key).update({status : 0});
+    }
 }

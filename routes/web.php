@@ -28,3 +28,7 @@ Route::get('android', function () {
 Route::get('iot', function () {
     return view('iot');
 });
+
+Route::get('/add-user', function () {
+    return view('addUser');
+});

@@ -52,16 +52,16 @@
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
             <i class="fas fa-fw fa-folder"></i>
-            <span>General Setting</span>
+            <span>User Setting</span>
         </a>
         <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Setting</h6>
-                <a class="collapse-item" href="#">Change Password</a>
-                <div class="collapse-divider"></div>
-                <h6 class="collapse-header">Users</h6>
+{{--                <h6 class="collapse-header">Setting</h6>--}}
+{{--                <a class="collapse-item" href="#">Change Password</a>--}}
+{{--                <div class="collapse-divider"></div>--}}
+                <h6 class="collapse-header">Users Control</h6>
+                <a class="collapse-item" href="/add-user">Add User</a>
                 <a class="collapse-item" href="#">View User</a>
-                <a class="collapse-item" href="#">Add User</a>
             </div>
         </div>
     </li>

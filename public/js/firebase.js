@@ -453,3 +453,8 @@ function switchCheckIOT2(key) {
         database.ref('Recent/Device2/' + key).update({status : 0});
     }
 }
+
+//-------JAVASCRIPT USER------------------
+function AddingUser(email, password) {
+
+}

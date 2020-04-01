@@ -70,6 +70,8 @@ function signIn() {
         })
 }
 
+
+
 function signOut() {
     auth.signOut()
         .then(function () {
@@ -523,30 +525,29 @@ function getAllUserData() {
             snapshot.forEach(function (data) {
                 var val = data.val();
                 var key = data.key;
-                var status = "";
 
-                if (val.Status == 1) {
-                    status = "<label class=\"switch\">\n" +
-                        "  <input type=\"checkbox\" checked id='user-" + key + "'" + "onclick=switchCheckUser('" + key + "')"+">\n" +
-                        "  <span class=\"slider round\"></span>\n" +
-                        "</label>";
-                } else {
-                    status = "<label class=\"switch\">\n" +
-                        "  <input type=\"checkbox\" id='user-" + user + "'" + "onclick=switchCheckUser('" + key + "')"+">\n" +
-                        "  <span class=\"slider round\"></span>\n" +
-                        "</label>";
-                }
-
-                var deleteButton = "<a href=\"#\" class=\"btn btn-danger btn-icon-split\">\n" +
+                var deleteButton = "<button class=\"btn btn-danger btn-icon-split\" onclick=removeUser('" + key +"')" +">\n" +
                     "                    <span class=\"icon text-white-50\">\n" +
                     "                      <i class=\"fas fa-trash\"></i>\n" +
                     "                    </span>\n" +
                     "                    <span class=\"text\">Delete User</span>\n" +
-                    "                  </a>";
+                    "                  </button>";
 
-                content = [i++, val.Fullname, val.Email, status, deleteButton];
+                content = [i++, val.Fullname, val.Email, deleteButton];
                 table.row.add(content).draw();
             });
         }
     });
+}
+
+function removeUser(key) {
+    var txt;
+    var r = confirm("Are you sure to delete " + key  + "?");
+    if (r == true) {
+        database.ref('User/' + key).remove();
+        alert("User Removed");
+        window.location.href = "/view-user";
+    } else {
+        return;
+    }
 }

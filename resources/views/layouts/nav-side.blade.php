@@ -2,10 +2,8 @@
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
-        <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fas fa-laugh-wink"></i>
-        </div>
-        <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+        <img src="{{url('img/icon-sidebar.jpg')}}" class="sidebar-brand-icon" width="30%" style="border-radius: 20px">
+        <div class="sidebar-brand-text mx-3">Flood Monitoring</div>
     </a>
 
     <!-- Divider -->

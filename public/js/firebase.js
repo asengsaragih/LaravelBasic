@@ -456,6 +456,46 @@ function switchCheckIOT2(key) {
     }
 }
 
+//-------JAVASCRIPT IOT PAGE------------------
+function getAllMarkerData() {
+    database.ref('Marker').once('value', function (snapshot) {
+
+        var table = $('.deviceIOT').DataTable();
+        var content;
+        var i = 1;
+
+        snapshot.forEach(function (data) {
+            var val = data.val();
+            var key = data.key;
+
+            if (val.status == 1) {
+                status = "<label class=\"switch\">\n" +
+                    "  <input type=\"checkbox\" checked id='marker-" + key + "'" + "onclick=switchCheckMarker('" + key + "')"+">\n" +
+                    "  <span class=\"slider round\"></span>\n" +
+                    "</label>";
+            } else {
+                status = "<label class=\"switch\">\n" +
+                    "  <input type=\"checkbox\" id='marker-" + key + "'" + "onclick=switchCheckMarker('" + key + "')"+">\n" +
+                    "  <span class=\"slider round\"></span>\n" +
+                    "</label>";
+            }
+
+            content = [i++, val.name, val.longitude, val.latitude, status];
+            table.row.add(content).draw();
+        });
+    });
+}
+
+function switchCheckMarker(key) {
+    var idCheckValue = document.getElementById("marker-" + key).checked;
+
+    if (idCheckValue == true) {
+        database.ref('Marker/' + key).update({status : 1});
+    } else {
+        database.ref('Marker/' + key).update({status : 0});
+    }
+}
+
 //-------JAVASCRIPT USER------------------
 function createNewUser() {
     var name = document.getElementById("nu_fullname").value;

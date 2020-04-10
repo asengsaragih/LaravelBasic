@@ -66,14 +66,15 @@
                 <!-- Data 1 -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Data IOT 1</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Current Data Android</h6>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-bordered androidData1" id="dataTable" width="100%" cellspacing="0">
+                            <table class="table table-bordered currentAndroidData" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                 <tr>
                                     <th>No</th>
+                                    <th>Location</th>
                                     <th>Date</th>
                                     <th>Time</th>
                                     <th>Debit</th>
@@ -85,6 +86,7 @@
                                 <tfoot>
                                 <tr>
                                     <th>No</th>
+                                    <th>Location</th>
                                     <th>Date</th>
                                     <th>Time</th>
                                     <th>Debit</th>
@@ -98,46 +100,7 @@
                     </div>
                 </div>
 
-                <script>showDataAndroid1();</script>
-
-                <!-- Data 2 -->
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Data IOT 2</h6>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered androidData2" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Date</th>
-                                    <th>Time</th>
-                                    <th>Debit</th>
-                                    <th>Level</th>
-                                    <th>Category</th>
-                                    <th>Switch</th>
-                                </tr>
-                                </thead>
-                                <tfoot>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Date</th>
-                                    <th>Time</th>
-                                    <th>Debit</th>
-                                    <th>Level</th>
-                                    <th>Category</th>
-                                    <th>Switch</th>
-                                </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <script>showDataAndroid2();</script>
-
-
+                <script>getCurrentDataAndroid()</script>
 
             </div>
             <!-- /.container-fluid -->

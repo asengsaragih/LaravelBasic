@@ -26,27 +26,27 @@ function getCategoryFlood(rawDebit, rawLevel) {
 
     if (debit < 1) {
         if (level < 2) {
-            return "NORMAL";
+            return "<b style='color: #00ff00'>NORMAL</b>";
         } else if (level <= 3.5) {
-            return "STANDBY";
+            return "<b style='color: #ffff00'>STANDBY</b>";
         } else {
-            return "STANDBY";
+            return "<b style='color: #ffff00'>STANDBY</b>";
         }
     } else if (debit < 2.5) {
         if (level < 2) {
-            return "NORMAL";
+            return "<b style='color: #00ff00'>NORMAL</b>";
         } else if (level <= 3.5) {
-            return "STANDBY";
+            return "<b style='color: #ffff00'>STANDBY</b>";
         } else {
-            return "DANGER";
+            return "<b style='color: #ff0000'>DANGER</b>";
         }
     } else {
         if (level < 2) {
-            return "NORMAL";
+            return "<b style='color: #00ff00'>NORMAL</b>";
         } else if (level <= 3.5) {
-            return "STANDBY";
+            return "<b style='color: #ffff00'>STANDBY</b>";
         } else {
-            return "DANGER";
+            return "<b style='color: #ff0000'>DANGER</b>";
         }
     }
 }
@@ -352,107 +352,51 @@ function setLabelChart(category) {
 
 //-------JAVASCRIPT ANDROID PAGE------------------
 
-function showDataAndroid1() {
-    database.ref('Recent/Device1').orderByChild('miliestime').once('value', function (snapshot) {
-        // console.log(snapshot.val());
-        var table = $('.androidData1').DataTable();
-        var content;
+function getCurrentDataAndroid() {
+    database.ref('Marker').once('value', function (snapshot) {
+        var table = $('.currentAndroidData').DataTable();
+        var content = "";
         var i = 1;
-        if (snapshot.exists()) {
-            snapshot.forEach(function (data) {
-                var val = data.val();
-                var key = data.key;
-                var cat = "";
-                var status = "";
+        var status = "";
 
-                if (val.category == "1") {
-                    cat = "<b style='color: #00ff00'>NORMAL</b>";
-                } else if (val.category == "2") {
-                    cat = "<b style='color: #ffff00'>STANDBY</b>";
-                } else if (val.category == "3") {
-                    cat = "<b style='color: #ff0000'>DANGER</b>";
-                } else {
-                    cat = "Null";
-                }
+        snapshot.forEach(function (data) {
+            var val = data.val();
+            var key = data.key;
 
-                if (val.status == 1) {
-                    status = "<label class=\"switch\">\n" +
-                        "  <input type=\"checkbox\" checked id='iot1-" + key + "'" + "onclick=switchCheckIOT1('" + key + "')"+">\n" +
-                        "  <span class=\"slider round\"></span>\n" +
-                        "</label>";
-                } else {
-                    status = "<label class=\"switch\">\n" +
-                        "  <input type=\"checkbox\" id='iot1-" + key + "'" + "onclick=switchCheckIOT1('" + key + "')"+">\n" +
-                        "  <span class=\"slider round\"></span>\n" +
-                        "</label>";
-                }
+            if (val.status == 1) {
+                database.ref("Marker/" + key + "/recent").orderByChild('miliestime').once('value', function (snapshotRecent) {
+                    snapshotRecent.forEach(function (dataRecent) {
+                        var valRecent = dataRecent.val();
+                        var keyRecent = dataRecent.key;
 
-                content = [i++, val.date, val.time, val.debit, val.level, cat, status];
-                table.row.add(content).draw();
-            });
-        }
+                        if (valRecent.status == 1) {
+                            status = "<label class=\"switch\">\n" +
+                                "  <input type=\"checkbox\" checked id='recent-" + keyRecent + "'" + "onclick=switchCheckRecent('" + key + "','" + keyRecent +"')"+">\n" +
+                                "  <span class=\"slider round\"></span>\n" +
+                                "</label>";
+                        } else {
+                            status = "<label class=\"switch\">\n" +
+                                "  <input type=\"checkbox\" id='recent-" + keyRecent + "'" + "onclick=switchCheckRecent('" + key + "','" + keyRecent +"')"+">\n" +
+                                "  <span class=\"slider round\"></span>\n" +
+                                "</label>";
+                        }
+
+                        content = [i++, val.name, valRecent.date, valRecent.time, valRecent.debit, valRecent.level, getCategoryFlood(valRecent.debit, valRecent.level), status];
+                        table.row.add(content).draw();
+                    });
+                });
+            }
+        });
     });
 }
 
-function showDataAndroid2() {
-    database.ref('Recent/Device2').orderByChild('miliestime').once('value' ,function (snapshot) {
-        // console.log(snapshot.val());
-        var table = $('.androidData2').DataTable();
-        var content;
-        var i = 1;
-        if (snapshot.exists()) {
-            snapshot.forEach(function (data) {
-                var val = data.val();
-                var key = data.key;
-                var cat = "";
-                var status = "";
-
-                if (val.category == "1") {
-                    cat = "<b style='color: #00ff00'>NORMAL</b>";
-                } else if (val.category == "2") {
-                    cat = "<b style='color: #ffff00'>STANDBY</b>";
-                } else if (val.category == "3") {
-                    cat = "<b style='color: #ff0000'>DANGER</b>";
-                } else {
-                    cat = "Null";
-                }
-
-                if (val.status == 1) {
-                    status = "<label class=\"switch\">\n" +
-                        "  <input type=\"checkbox\" checked id='iot2-" + key + "'" + "onclick=switchCheckIOT2('" + key + "')"+">\n" +
-                        "  <span class=\"slider round\"></span>\n" +
-                        "</label>";
-                } else {
-                    status = "<label class=\"switch\">\n" +
-                        "  <input type=\"checkbox\" id='iot2-" + key + "'" + "onclick=switchCheckIOT2('" + key + "')"+">\n" +
-                        "  <span class=\"slider round\"></span>\n" +
-                        "</label>";
-                }
-
-                content = [i++, val.date, val.time, val.debit, val.level, cat, status];
-                table.row.add(content).draw();
-            });
-        }
-    });
-}
-
-function switchCheckIOT1(key) {
-    var idCheckValue = document.getElementById("iot1-" + key).checked;
+function switchCheckRecent(key, keyRecent) {
+    var idCheckValue = document.getElementById("recent-" + keyRecent).checked;
 
     if (idCheckValue == true) {
-        database.ref('Recent/Device1/' + key).update({status : 1});
+        database.ref('Marker/' + key + "/recent/" + keyRecent).update({status : 1});
     } else {
-        database.ref('Recent/Device1/' + key).update({status : 0});
-    }
-}
-
-function switchCheckIOT2(key) {
-    var idCheckValue = document.getElementById("iot2-" + key).checked;
-
-    if (idCheckValue == true) {
-        database.ref('Recent/Device2/' + key).update({status : 1});
-    } else {
-        database.ref('Recent/Device2/' + key).update({status : 0});
+        database.ref('Marker/' + key + "/recent/" + keyRecent).update({status : 0});
     }
 }
 
@@ -463,6 +407,7 @@ function getAllMarkerData() {
         var table = $('.deviceIOT').DataTable();
         var content;
         var i = 1;
+        var status = "";
 
         snapshot.forEach(function (data) {
             var val = data.val();

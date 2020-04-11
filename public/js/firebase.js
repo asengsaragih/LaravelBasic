@@ -83,8 +83,37 @@ function signOut() {
 }
 
 //-------------JAVASCRIPT DASHBOARD PAGE----------------------
-function showData1() {
-    database.ref('Recent/Device1').orderByChild('miliestime').on('value' ,function (snapshot) {
+function getMarkerDataDashboard() {
+    database.ref('Marker').once('value', function (snapshot) {
+        var content = '';
+
+        if (snapshot.exists()) {
+            snapshot.forEach(function (data) {
+                var val = data.val();
+                var key = data.key;
+                if (val.status == 1) {
+                    content += "<option " + "value='" + key + "'>" + val.name + "</option>"
+                }
+            });
+        }
+        $('#marker-dashboard').append(content);
+    });
+}
+
+function dashboardChangeData() {
+    var keyMarker = document.getElementById("marker-dashboard").value;
+    showDataTable(keyMarker);
+    getLastNodeRecent(keyMarker);
+    iotBiggestFlood(keyMarker);
+    showChartIOT1(keyMarker);
+
+    document.getElementById("card-dashboard").style.visibility = "visible";
+    document.getElementById("chart-dashboard").style.visibility = "visible";
+    document.getElementById("table-dashboard").style.visibility = "visible";
+}
+
+function showDataTable(keyMarker) {
+    database.ref('Marker/' + keyMarker + '/recent/').orderByChild('miliestime').on('value' ,function (snapshot) {
         // console.log(snapshot.val());
         var table = $('.dataIOT1').DataTable();
         var content;
@@ -111,36 +140,8 @@ function showData1() {
     });
 }
 
-function showData2() {
-    database.ref('Recent/Device2').orderByChild('miliestime').on('value' ,function (snapshot) {
-        // console.log(snapshot.val());
-        var table = $('.dataIOT2').DataTable();
-        var content;
-        var i = 1;
-        if (snapshot.exists()) {
-            snapshot.forEach(function (data) {
-                var val = data.val();
-                var cat = "";
-
-                if (val.category == "1") {
-                    cat = "<b style='color: #00ff00'>NORMAL</b>";
-                } else if (val.category == "2") {
-                    cat = "<b style='color: #ffff00'>STANDBY</b>";
-                } else if (val.category == "3") {
-                    cat = "<b style='color: #ff0000'>DANGER</b>";
-                } else {
-                    cat = "Null";
-                }
-
-                content = [i++, val.date, val.time, val.debit, val.level, cat];
-                table.row.add(content).draw();
-            });
-        }
-    });
-}
-
-function getLastNodeRecentIOT1() {
-    database.ref("Recent/Device1").limitToLast(1).on('child_added', function (snapshot) {
+function getLastNodeRecent(keyMarker) {
+    database.ref('Marker/' + keyMarker + '/recent/').limitToLast(1).on('child_added', function (snapshot) {
         var content = '';
 
         var val = snapshot.val();
@@ -160,41 +161,8 @@ function getLastNodeRecentIOT1() {
     });
 }
 
-function getLastNodeRecentIOT2() {
-    database.ref("Recent/Device2").limitToLast(1).on('child_added', function (snapshot) {
-        var content = '';
-
-        var val = snapshot.val();
-        var category = val.category;
-
-        if (category == 1) {
-            content += "<b style='color: #00ff00'>NORMAL</b>";
-        } else if (category == 2) {
-            content += "<b style='color: #ffff00'>STANDBY</b>";
-        } else if (category == 3) {
-            content += "<b style='color: #ff0000'>DANGER</b>";
-        } else {
-            content += "<b>NO PARAMETER</b>";
-        }
-
-        $('#recentDevice2').append(content);
-    });
-}
-
-function iot1BiggestFlood() {
-    database.ref('Recent/Device1').orderByChild("level").limitToLast(1).on('child_added', function (snapshot) {
-        var content = '';
-        var val = snapshot.val();
-        var category = val.category;
-
-        content += val.level + " | " + val.debit;
-        // console.log(val.level);
-        $('#iot1Biggest').append(content);
-    });
-}
-
-function iot2BiggestFlood() {
-    database.ref('Recent/Device2').orderByChild("level").limitToLast(1).on('child_added', function (snapshot) {
+function iotBiggestFlood(keyMarker) {
+    database.ref('Marker/' + keyMarker + '/recent/').orderByChild("level").limitToLast(1).on('child_added', function (snapshot) {
         var content = '';
         var val = snapshot.val();
         var category = val.category;
@@ -205,13 +173,8 @@ function iot2BiggestFlood() {
     });
 }
 
-// chart function
-// Set new default font family and font color to mimic Bootstrap's default styling
-Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
-Chart.defaults.global.defaultFontColor = '#858796';
-
-function showChartIOT1() {
-    database.ref('Recent/Device1').orderByChild('miliestime').on('value' ,function (snapshot) {
+function showChartIOT1(keyMarker) {
+    database.ref('Marker/' + keyMarker + '/recent/').orderByChild('miliestime').on('value' ,function (snapshot) {
         var dataArrayStatus = [];
         var dataArrayTime = [];
 
@@ -227,22 +190,10 @@ function showChartIOT1() {
     });
 }
 
-function showChartIOT2() {
-    database.ref('Recent/Device2').orderByChild('miliestime').on('value' ,function (snapshot) {
-        var dataArrayStatus = [];
-        var dataArrayTime = [];
-
-        snapshot.forEach(function (data) {
-            var val = data.val();
-            var date_time = val.date + " " + val.time;
-
-            dataArrayStatus.push(val.category);
-            dataArrayTime.push(date_time);
-        });
-
-        chartCallback(dataArrayTime, dataArrayStatus, "IOT2Chart");
-    });
-}
+// chart function
+// Set new default font family and font color to mimic Bootstrap's default styling
+Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+Chart.defaults.global.defaultFontColor = '#858796';
 
 function chartCallback(dataLabel, dataRaw, ctxID) {
     var ctx = document.getElementById(ctxID);
@@ -296,7 +247,7 @@ function chartCallback(dataLabel, dataRaw, ctxID) {
                         // Include a dollar sign in the ticks
                         callback: function(value, index, values) {
                             // return '$' + number_format(value);
-                            console.log(value + " test odng");
+                            // console.log(value + " test odng");
                             return setLabelChart(value);
                         }
                     },
@@ -349,6 +300,9 @@ function setLabelChart(category) {
 }
 
 // end chart function
+
+//-------------JAVASCRIPT DASHBOARD PAGE----------------------
+
 
 //-------JAVASCRIPT ANDROID PAGE------------------
 

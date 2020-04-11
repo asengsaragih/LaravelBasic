@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
+    <title>Monitoring Banjir - Dashboard</title>
 
     <!-- Custom fonts for this template-->
     <link href="{{url('vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
@@ -18,6 +18,23 @@
     <!-- Custom styles for this template-->
     <link href="{{url('css/sb-admin-2.min.css')}}" rel="stylesheet">
     <link href="{{url('vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
+
+    <style>
+        .select-dashboard {
+            width: 50%;
+            border: none;
+            border: 2px solid #93CFF2;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+            color: gray;
+        }
+
+        #card-dashboard, #chart-dashboard, #table-dashboard {
+            visibility: hidden;
+        }
+    </style>
+
+
 
 
     <!-- Firebase -->
@@ -56,59 +73,37 @@
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                     <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+                    <select class="select-dashboard" id="marker-dashboard" onchange="dashboardChangeData()">
+                        <option selected hidden disabled>Choose one</option>
+                    </select>
+                    <script>getMarkerDataDashboard()</script>
                 </div>
 
                 <!-- Content Row -->
                 <!-- haru buat row untuk setiap tampilan -->
                 <!-- end row -->
 
-                <div class="row">
-                    <div class="col-xl-3 col-md-6 mb-4">
+                <div class="row" id="card-dashboard">
+                    <div class="col-xl-6 col-md-6 mb-4">
                         <div class="card border-left-warning shadow h-100 py-2">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Status IOT 1</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="recentDevice1"><script>getLastNodeRecentIOT1()</script></div>
+                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Status Kit</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="recentDevice1"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="col-xl-6 col-md-6 mb-4">
                         <div class="card border-left-warning shadow h-100 py-2">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Status IOT 2</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="recentDevice2"><script>getLastNodeRecentIOT2()</script></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-warning shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Biggest Flood IOT 1</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="iot1Biggest"><script>iot1BiggestFlood()</script></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-warning shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Biggest Flood IOT 2</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="iot2Biggest"><script>iot2BiggestFlood()</script></div>
+                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Data Terbesar Kit</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="iot2Biggest"></div>
                                     </div>
                                 </div>
                             </div>
@@ -117,12 +112,12 @@
                 </div>
 
                 {{--    area chart            --}}
-                <div class="row">
+                <div class="row" id="chart-dashboard">
                     <div class="col-xl-12">
                         <!-- Area Chart -->
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Chart IOT 1</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">Grafik Kit</h6>
                             </div>
                             <div class="card-body">
                                 <div class="chart-area">
@@ -133,31 +128,10 @@
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-xl-12">
-                        <!-- Area Chart -->
-                        <div class="card shadow mb-4">
-                            <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Chart IOT 2</h6>
-                            </div>
-                            <div class="card-body">
-                                <div class="chart-area">
-                                    <canvas id="IOT2Chart"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <script>
-                    showChartIOT1();
-                    showChartIOT2();
-                </script>
-
                 <!-- Data 1 -->
-                <div class="card shadow mb-4">
+                <div class="card shadow mb-4" id="table-dashboard">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Data IOT 1</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Data Kit</h6>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -186,43 +160,6 @@
                         </div>
                     </div>
                 </div>
-
-                <script>showData1();</script>
-
-                <!-- Data 2 -->
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Data IOT 2</h6>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered dataIOT2" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Date</th>
-                                    <th>Time</th>
-                                    <th>Debit</th>
-                                    <th>Level</th>
-                                    <th>Category</th>
-                                </tr>
-                                </thead>
-                                <tfoot>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Date</th>
-                                    <th>Time</th>
-                                    <th>Debit</th>
-                                    <th>Level</th>
-                                    <th>Category</th>
-                                </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <script>showData2();</script>
 
             </div>
             <!-- /.container-fluid -->
@@ -270,12 +207,7 @@
 <script src="{{url('js/demo/chart-pie-demo.js')}}"></script>
 
 <!-- Datatables custom -->
-<script>
-    // var someTableDT = $("#sdataTable").on("draw.dt", function () {
-    //     $(this).find(".dataTables_empty").parents('tbody').empty();
-    // }).DataTable(/*init object*/);
 
-</script>
 
 </body>
 

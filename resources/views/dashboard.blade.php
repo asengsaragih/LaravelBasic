@@ -28,10 +28,6 @@
             border-radius: 10px;
             color: gray;
         }
-
-        #card-dashboard, #chart-dashboard, #table-dashboard {
-            visibility: hidden;
-        }
     </style>
 
 
@@ -49,6 +45,8 @@
 </head>
 
 <body id="page-top">
+
+<script>setFirstOpenDashboard()</script>
 
 <!-- Page Wrapper -->
 <div id="wrapper">
@@ -74,7 +72,6 @@
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                     <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
                     <select class="select-dashboard" id="marker-dashboard" onchange="dashboardChangeData()">
-                        <option selected hidden disabled>Choose one</option>
                     </select>
                     <script>getMarkerDataDashboard()</script>
                 </div>

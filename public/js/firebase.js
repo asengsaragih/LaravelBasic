@@ -83,6 +83,16 @@ function signOut() {
 }
 
 //-------------JAVASCRIPT DASHBOARD PAGE----------------------
+function setFirstOpenDashboard() {
+    database.ref('Marker').orderByChild("status").equalTo(1).limitToFirst(1).once('child_added', function (snapshot) {
+        var keyMarker = snapshot.key;
+
+        showDataTable(keyMarker);
+        getLastNodeRecent(keyMarker);
+        iotBiggestFlood(keyMarker);
+        showChartIOT1(keyMarker);
+    });
+}
 function getMarkerDataDashboard() {
     database.ref('Marker').once('value', function (snapshot) {
         var content = '';
@@ -101,15 +111,17 @@ function getMarkerDataDashboard() {
 }
 
 function dashboardChangeData() {
+    var table = $('.dataIOT1').DataTable();
+    table.clear().draw();
+    $('#recentDevice1').empty();
+    $('#iot2Biggest').empty();
+    $('#IOT1Chart').empty();
+
     var keyMarker = document.getElementById("marker-dashboard").value;
     showDataTable(keyMarker);
     getLastNodeRecent(keyMarker);
     iotBiggestFlood(keyMarker);
     showChartIOT1(keyMarker);
-
-    document.getElementById("card-dashboard").style.visibility = "visible";
-    document.getElementById("chart-dashboard").style.visibility = "visible";
-    document.getElementById("table-dashboard").style.visibility = "visible";
 }
 
 function showDataTable(keyMarker) {

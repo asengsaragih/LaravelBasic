@@ -19,6 +19,8 @@ const CATEGORY_DANGER = "WARNING";
 const CATEGORY_STANDBY = "STAND-BY";
 const CATEGORY_NORMAL = "NORMAL";
 
+var dashboardChart = "";
+
 //-------------FUNCTION ALL-----------------------------------
 function getCategoryFlood(rawDebit, rawLevel) {
     var debit = parseFloat(rawDebit.replace(" L/m", ""));
@@ -111,6 +113,7 @@ function getMarkerDataDashboard() {
 }
 
 function dashboardChangeData() {
+    dashboardChart.destroy();
     var table = $('.dataIOT1').DataTable();
     table.clear().draw();
     $('#recentDevice1').empty();
@@ -209,7 +212,7 @@ Chart.defaults.global.defaultFontColor = '#858796';
 
 function chartCallback(dataLabel, dataRaw, ctxID) {
     var ctx = document.getElementById(ctxID);
-    var myLineChart = new Chart(ctx, {
+    dashboardChart = new Chart(ctx, {
         type: 'line',
         data: {
             labels: dataLabel,

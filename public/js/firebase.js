@@ -313,9 +313,6 @@ function setLabelChart(category) {
 
 // end chart function
 
-//-------------JAVASCRIPT DASHBOARD PAGE----------------------
-
-
 //-------JAVASCRIPT ANDROID PAGE------------------
 
 function getCurrentDataAndroid() {
@@ -391,7 +388,7 @@ function getAllMarkerData() {
                     "</label>";
             }
 
-            content = [i++, val.name, val.longitude, val.latitude, status];
+            content = [i++, val.name, val.longitude, val.latitude, data.key, status];
             table.row.add(content).draw();
         });
     });
@@ -405,6 +402,35 @@ function switchCheckMarker(key) {
     } else {
         database.ref('Marker/' + key).update({status : 0});
     }
+}
+
+function createNewMarker() {
+    var name = document.getElementById("marker_name").value;
+    var latitude = document.getElementById("marker_latitude").value;
+    var longitude = document.getElementById("marker_longitude").value;
+
+    if (name == "" || name == null || name == " ") {
+        alert("Name must be filled");
+        return;
+    }
+
+    if (latitude == "" || latitude == 0 || longitude == "" || longitude == 0) {
+        alert("Location must be filled");
+        return;
+    }
+
+    var newMarkerData = {
+        alt: 15,
+        latitude: parseFloat(latitude),
+        longitude: parseFloat(longitude),
+        name: name,
+        status: 0,
+    };
+
+    var push = database.ref("Marker/").push();
+
+    push.set(newMarkerData);
+    location.reload();
 }
 
 //-------JAVASCRIPT USER------------------

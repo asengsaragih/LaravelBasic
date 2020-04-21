@@ -57,11 +57,47 @@
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                     <h1 class="h3 mb-0 text-gray-800">IOT</h1>
+                    <button id="toogle-new-marker" class="bg-gradient-primary d-none d-sm-inline-block btn btn-sm btn-primary" style="border: none" onclick="openModal()"><i class="fa fa-plus fa-sm text-white-50"></i> Adding Marker</button>
                 </div>
 
                 <!-- Content Row -->
                 <!-- haru buat row untuk setiap tampilan -->
                 <!-- end row -->
+
+                <script>
+                    function openModal() {
+                        var x = document.getElementById("form-add-new-marker");
+                        if (x.style.display === "none") {
+                            x.style.display = "block";
+                        } else {
+                            x.style.display = "none";
+                        }
+                    }
+                </script>
+
+                <!-- Basic Card Example -->
+                <div class="card shadow mb-4" id="form-add-new-marker" style="display: none">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Add New Marker</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <h6>Location Name : </h6>
+                            <input type="text" id="marker_name" class="form-control form-control-user" placeholder="eg. Bandung Barat">
+                        </div>
+                        <div class="form-group">
+                            <h6>Latitude : </h6>
+                            <input type="number" id="marker_latitude" class="form-control form-control-user" aria-describedby="emailHelp" placeholder="eg. -95.25015">
+                        </div>
+                        <div class="form-group">
+                            <h6>Longitude : </h6>
+                            <input type="number" id="marker_longitude" class="form-control form-control-user" placeholder="eg. 103.5862">
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" id="addNewMarker" class="btn btn-primary btn-user btn-block" onclick="createNewMarker()">Add New Marker</button>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Data 1 -->
                 <div class="card shadow mb-4">
@@ -77,6 +113,7 @@
                                     <th>Name</th>
                                     <th>Longitude</th>
                                     <th>Latitude</th>
+                                    <th>Id Marker</th>
                                     <th>Status</th>
                                 </tr>
                                 </thead>
@@ -86,6 +123,7 @@
                                     <th>Name</th>
                                     <th>Longitude</th>
                                     <th>Latitude</th>
+                                    <th>Id Marker</th>
                                     <th>Status</th>
                                 </tr>
                                 </tfoot>

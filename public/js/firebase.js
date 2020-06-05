@@ -205,7 +205,7 @@ function showChartIOT1(keyMarker) {
             dataArrayLevel.push(val.level);
         });
 
-        chartCallback(dataArrayTime, dataArrayStatus, "IOT1Chart");
+        chartCallback(dataArrayTime, dataArrayStatus, dataArrayDebit, dataArrayLevel, "IOT1Chart");
     });
 }
 
@@ -214,7 +214,7 @@ function showChartIOT1(keyMarker) {
 Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#858796';
 
-function chartCallback(dataLabel, dataRaw, ctxID) {
+function chartCallback(dataLabel, dataRaw, dataDebit, dataLevel, ctxID) {
     var ctx = document.getElementById(ctxID);
     dashboardChart = new Chart(ctx, {
         type: 'line',
@@ -302,7 +302,14 @@ function chartCallback(dataLabel, dataRaw, ctxID) {
                         // return datasetLabel + ': $' + number_format(tooltipItem.yLabel);
                         // return setLabelChart(tooltipItem.yLabel);
                         // return chart.datasets[tooltipItem.datasetIndex].dataLevel;
-                        return tooltipItem.index;
+                        var positionValue = "0";
+
+                        if (tooltipItem.index == "") {
+                            positionValue = "0";
+                        } else {
+                            positionValue = "" + tooltipItem.index;
+                        }
+                        return "Debit : " + dataDebit[parseInt(positionValue)] + " | " + "Level : " + dataLevel[parseInt(positionValue)];
                     }
                 }
             }

@@ -192,6 +192,8 @@ function showChartIOT1(keyMarker) {
     database.ref('Marker/' + keyMarker + '/recent/').orderByChild('miliestime').on('value' ,function (snapshot) {
         var dataArrayStatus = [];
         var dataArrayTime = [];
+        var dataArrayDebit = [];
+        var dataArrayLevel = [];
 
         snapshot.forEach(function (data) {
             var val = data.val();
@@ -199,6 +201,8 @@ function showChartIOT1(keyMarker) {
 
             dataArrayStatus.push(val.category);
             dataArrayTime.push(date_time);
+            dataArrayDebit.push(val.debit);
+            dataArrayLevel.push(val.level);
         });
 
         chartCallback(dataArrayTime, dataArrayStatus, "IOT1Chart");
@@ -296,7 +300,9 @@ function chartCallback(dataLabel, dataRaw, ctxID) {
                     label: function(tooltipItem, chart) {
                         var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
                         // return datasetLabel + ': $' + number_format(tooltipItem.yLabel);
-                        return setLabelChart(tooltipItem.yLabel);
+                        // return setLabelChart(tooltipItem.yLabel);
+                        // return chart.datasets[tooltipItem.datasetIndex].dataLevel;
+                        return tooltipItem.index;
                     }
                 }
             }

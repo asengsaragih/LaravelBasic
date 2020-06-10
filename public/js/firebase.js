@@ -485,11 +485,10 @@ function createNewUser() {
             Fullname: name,
             Email: email,
             Status: 1,
-        }
+        };
 
-        var emailSplit = email.split("@", 1);
-
-        database.ref('User/'+emailSplit.replace(".","")).set(userData);
+        var push = database.ref('User/').push();
+        push.set(userData);
 
         window.location.href = "/view-user";
     }).catch((error) => {
@@ -519,12 +518,20 @@ function getAllUserData() {
                 var val = data.val();
                 var key = data.key;
 
-                var deleteButton = "<button class=\"btn btn-danger btn-icon-split\" onclick=removeUser('" + key +"')" +">\n" +
-                    "                    <span class=\"icon text-white-50\">\n" +
-                    "                      <i class=\"fas fa-trash\"></i>\n" +
-                    "                    </span>\n" +
-                    "                    <span class=\"text\">Delete User</span>\n" +
-                    "                  </button>";
+                var user = auth.currentUser;
+                var deleteButton = "";
+                if (user.email == val.Email) {
+                    deleteButton = "";
+                } else {
+                    deleteButton = "<button class=\"btn btn-danger btn-icon-split\" onclick=removeUser('" + key +"')" +">\n" +
+                        "                    <span class=\"icon text-white-50\">\n" +
+                        "                      <i class=\"fas fa-trash\"></i>\n" +
+                        "                    </span>\n" +
+                        "                    <span class=\"text\">Delete User</span>\n" +
+                        "                  </button>";
+                }
+
+
 
                 content = [i++, val.Fullname, val.Email, deleteButton];
                 table.row.add(content).draw();

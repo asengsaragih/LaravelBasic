@@ -79,11 +79,11 @@
                         </div>
                         <div class="form-group">
                             <h6>Password : </h6>
-                            <input type="password" id="nu_password" class="form-control form-control-user" id="exampleInputPassword" placeholder="eg. jhonDoe12!@">
+                            <input type="password" maxlength="16" id="nu_password" class="form-control form-control-user" id="exampleInputPassword" placeholder="eg. jhonDoe12!@">
                         </div>
                         <div class="form-group">
                             <h6>Re-Type Password : </h6>
-                            <input type="password" id="nu_rePassword" class="form-control form-control-user" id="exampleInputPassword" placeholder="eg. jhonDoe12!@">
+                            <input type="password" maxlength="16" id="nu_rePassword" class="form-control form-control-user" id="exampleInputPassword" placeholder="eg. jhonDoe12!@">
                         </div>
                         <div class="form-group">
                             <button type="submit" id="addUserButton" class="btn btn-primary btn-user btn-block" onclick="createNewUser()">Add New User</button>

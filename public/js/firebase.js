@@ -360,7 +360,8 @@ function getCurrentDataAndroid() {
                                 "</label>";
                         }
 
-                        content = [i++, val.name, valRecent.date, valRecent.time, valRecent.debit, valRecent.level, getCategoryFlood(valRecent.debit, valRecent.level), status];
+                        // content = [i++, val.name, valRecent.date, valRecent.time, valRecent.debit, valRecent.level, getCategoryFlood(valRecent.debit, valRecent.level), status];
+                        content = [i++, val.name, valRecent.date, valRecent.time, valRecent.debit, valRecent.level, getCategoryFlood(valRecent.debit, valRecent.level)];
                         table.row.add(content).draw();
                     });
                 });

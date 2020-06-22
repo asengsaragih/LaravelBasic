@@ -80,7 +80,7 @@
                                     <th>Debit</th>
                                     <th>Level</th>
                                     <th>Category</th>
-                                    <th>Switch</th>
+{{--                                    <th>Switch</th>--}}
                                 </tr>
                                 </thead>
                                 <tfoot>
@@ -92,7 +92,7 @@
                                     <th>Debit</th>
                                     <th>Level</th>
                                     <th>Category</th>
-                                    <th>Switch</th>
+{{--                                    <th>Switch</th>--}}
                                 </tr>
                                 </tfoot>
                             </table>
